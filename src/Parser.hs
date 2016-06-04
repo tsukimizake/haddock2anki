@@ -22,10 +22,10 @@ items :: Scraper String [Item]
 items = chroots ("div" @: [hasClass "top"]) item
       
 item :: Scraper String Item
-item = scrapedata <|> scrapeclass
+item = scrapeData <|> scrapeClass
 
-scrapedata :: Scraper String Item
-scrapedata = do
+scrapeData :: Scraper String Item
+scrapeData = do
     name <- text $ "a" @: [hasClass "def"]
     doc <- text $ "div" @: [hasClass "doc"]
     sourcehtml <- html $ srcSel // sourceSel
@@ -39,8 +39,8 @@ scrapedata = do
 scrapeSubMethods :: Scraper String Item
 scrapeSubMethods = undefined
 
-scrapeclass :: Scraper String Item
-scrapeclass = do
+scrapeClass :: Scraper String Item
+scrapeClass = do
     name <- text $ "a" @: [hasClass "def"]
     doc <- text $ "div" @: [hasClass "doc"]
     methods <- return []
@@ -50,8 +50,8 @@ scrapeclass = do
 
 
 
-scrapefunc :: Scraper String Item
-scrapefunc = undefined
+scrapeFunc :: Scraper String Item
+scrapeFunc = undefined
 
 allItems :: String -> IO (Maybe [Item])
 allItems url = scrapeURL url items
