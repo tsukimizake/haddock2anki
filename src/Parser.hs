@@ -6,7 +6,7 @@ import Text.HTML.Scalpel
 import Control.Applicative
 type Name = String
 type Doc = String
-type Type = String
+type Signature = String
 type Method = String
 type Methods = [Method]
 type Instances = [Item]
@@ -15,7 +15,7 @@ type Fixity = String
 
 data Item = Data Name Doc Source 
           | Class Name Doc Methods Instances Source
-          | Func Name Type Doc Fixity Source
+          | Func Name Signature Doc Fixity Source
           deriving (Show, Read, Eq)
 
 items :: Scraper String [Item]
