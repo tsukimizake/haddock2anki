@@ -13,4 +13,3 @@ name2doc = concatMap step
         step (Class n d m i s) = "class" ++ n ++ "\t" ++ d
         step (Op n sig d f s) = n ++ sig ++ "\t" ++ d ++ " " ++ f
         step (Func n sig d s) = n ++ sig ++ "\t" ++ d
-      
