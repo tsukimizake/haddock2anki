@@ -1,4 +1,7 @@
-module Parser where
+module Parser
+       (
+         allItems
+       )where
 import Text.HTML.Scalpel
 import Control.Applicative
 type Name = String
@@ -50,5 +53,5 @@ scrapeclass = do
 scrapefunc :: Scraper String Item
 scrapefunc = undefined
 
-allItems :: IO (Maybe [Item])
-allItems = scrapeURL "file:///Users/shomasd/junk/scalpel.html" items
+allItems :: String -> IO (Maybe [Item])
+allItems url = scrapeURL url items
