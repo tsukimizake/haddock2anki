@@ -23,29 +23,26 @@ items = chroots ("div" @: [hasClass "top"]) item
       
 item :: Scraper String Item
 item = scrapeData <|> scrapeClass
+getDef = text $ "a" @: [hasClass "def"]
+getDoc = text $ "div" @: [hasClass "doc"]
+getSource = attr "href" $ "a" @: [hasClass "link"]
 
 scrapeData :: Scraper String Item
 scrapeData = do
-    name <- text $ "a" @: [hasClass "def"]
-    doc <- text $ "div" @: [hasClass "doc"]
-    sourcehtml <- html $ srcSel // sourceSel
-    source <- attr "href" $ "a" @: [hasClass "link"]
+    name <- getDef
+    doc <- getDoc
+    source <- getSource
     return $ Data name doc source
-  where srcSel :: Selector
-        srcSel = "p" @: [hasClass "src"]
-        sourceSel :: Selector
-        sourceSel = "a" @: [hasClass "link"]
-        
 scrapeSubMethods :: Scraper String Item
 scrapeSubMethods = undefined
 
 scrapeClass :: Scraper String Item
 scrapeClass = do
-    name <- text $ "a" @: [hasClass "def"]
-    doc <- text $ "div" @: [hasClass "doc"]
+    name <- getDef
+    doc <- getDoc
     instances <- return []
     methods <- return []
-    source <- attr "href" $ "a" @: [hasClass "link"]
+    source <- getSource
     return $ Class name doc methods instances source
 
 
