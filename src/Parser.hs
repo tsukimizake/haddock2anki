@@ -5,6 +5,7 @@ module Parser
 import Text.HTML.Scalpel
 import Control.Applicative
 import Types
+
 items :: Scraper String [Item]
 items = chroots ("div" @: [hasClass "top"]) item
       
