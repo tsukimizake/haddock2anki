@@ -29,7 +29,7 @@ scrapeData = do
     name <- text $ "a" @: [hasClass "def"]
     doc <- text $ "div" @: [hasClass "doc"]
     sourcehtml <- html $ srcSel // sourceSel
-    let source = ""
+    source <- attr "href" $ "a" @: [hasClass "link"]
     return $ Data name doc source
   where srcSel :: Selector
         srcSel = "p" @: [hasClass "src"]
@@ -43,9 +43,9 @@ scrapeClass :: Scraper String Item
 scrapeClass = do
     name <- text $ "a" @: [hasClass "def"]
     doc <- text $ "div" @: [hasClass "doc"]
-    methods <- return []
     instances <- return []
-    source <- html $ "a" @: [hasClass "link"]
+    methods <- return []
+    source <- attr "href" $ "a" @: [hasClass "link"]
     return $ Class name doc methods instances source
 
 
