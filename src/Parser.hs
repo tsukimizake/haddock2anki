@@ -15,14 +15,15 @@ type Fixity = String
 
 data Item = Data Name Doc Source 
           | Class Name Doc Methods Instances Source
-          | Func Name Signature Doc Fixity Source
+          | Op Name Signature Doc Fixity Source
+          | Func Name Signature Doc Source
           deriving (Show, Read, Eq)
 
 items :: Scraper String [Item]
 items = chroots ("div" @: [hasClass "top"]) item
       
 item :: Scraper String Item
-item = scrapeFunc <|> scrapeData <|> scrapeClass
+item = scrapeOp <|> scrapeFunc <|> scrapeClass <|> scrapeData
 
 getDef = text $ "a" @: [hasClass "def"]
 getDoc = text $ "div" @: [hasClass "doc"]
@@ -34,6 +35,7 @@ scrapeData = do
     doc <- getDoc
     source <- getSource
     return $ Data name doc source
+
 
 scrapeSubMethods :: Scraper String [Item]
 scrapeSubMethods = undefined
@@ -50,14 +52,22 @@ scrapeClass = do
     source <- getSource
     return $ Class name doc methods instances source
 
-scrapeFunc :: Scraper String Item
-scrapeFunc = do
+scrapeOp :: Scraper String Item
+scrapeOp = do
     name <- getDef
     sig <- text $ "p" @: [hasClass "src"]
     doc <- getDoc
     fixity <- text $ "span" @: [hasClass "fixity"]
     source <- getSource
-    return $ Func name sig doc fixity source
+    return $ Op name sig doc fixity source
+
+scrapeFunc :: Scraper String Item
+scrapeFunc = do
+    name <- getDef
+    sig <- text $ "p" @: [hasClass "src"]
+    doc <- getDoc
+    source <- getSource
+    return $ Func name sig doc source
 
 allItems :: String -> IO (Maybe [Item])
 allItems url = scrapeURL url items
