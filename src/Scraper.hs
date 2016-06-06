@@ -8,7 +8,7 @@ import Types
 
 items :: Scraper String [Item]
 items = chroots ("div" @: [hasClass "top"]) item
-      
+
 item :: Scraper String Item
 item = scrapeOp <|> scrapeFunc <|> scrapeClass <|> scrapeData
 

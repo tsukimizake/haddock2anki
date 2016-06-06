@@ -1,6 +1,6 @@
 module Main where
 
-import Parser
+import Scraper
 import Formatter
 import System.Environment (getArgs)
 import Data.Maybe
