@@ -3,14 +3,13 @@ module Main where
 import Parser
 import Formatter
 import System.Environment (getArgs)
-import Downloader
 import Data.Maybe
 assert :: IO()
 assert = putStrLn "pass url as an arg!"
 
 run :: String -> String -> IO()
 run outputpath uri = do
-    maybeitems <- allItems =<< download uri
+    maybeitems <- allItems uri
     items <- return $ fromMaybe [] maybeitems
     res <- return . name2doc $ items
     writeFile outputpath res
@@ -20,6 +19,4 @@ main = do
      args <- getArgs
      if length args == 0
          then assert
-         else run "." (head args)
-
-
+         else run "./out.txt" (head args)

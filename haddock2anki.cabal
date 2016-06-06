@@ -15,7 +15,7 @@ cabal-version:       >=1.10
 
 library
   hs-source-dirs:      src
-  exposed-modules:     Parser
+  exposed-modules:     Types, Parser, Formatter
   build-depends:       base >= 4.7 && < 5
                      , bytestring >= 0.10.6.0
                      , http-conduit >= 2.1.10.1
