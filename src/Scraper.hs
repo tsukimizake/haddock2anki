@@ -1,4 +1,4 @@
-module Parser
+module Scraper
        (
          allItems
        )where
