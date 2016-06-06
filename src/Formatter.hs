@@ -15,16 +15,9 @@ name2doc = concatMap step
         step (Func n sig d s) = n ++ sig ++ "\t" ++ formatDoc d
 
 formatDoc :: Doc -> Doc
-formatDoc = strip
+formatDoc = replaceNewLine . strip
 
-
-
-
-
-
-
-
-strip :: String -> String
+strip :: Doc -> Doc
 strip = lstrip . rstrip
   where
     wschars :: String
@@ -37,3 +30,6 @@ strip = lstrip . rstrip
                       else s
     rstrip :: String -> String
     rstrip = reverse . lstrip . reverse
+
+replaceNewLine :: Doc -> Doc
+replaceNewLine = filter ((/=) '\n')
