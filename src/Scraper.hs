@@ -1,6 +1,6 @@
 module Scraper
        (
-         allItems
+         items
        )where
 import Text.HTML.Scalpel
 import Control.Applicative
@@ -10,12 +10,10 @@ items :: Scraper String [Item]
 items = chroots ("div" @: [hasClass "top"]) item
 
 item :: Scraper String Item
-item = scrapeOp <|> scrapeFunc <|> scrapeClass <|> scrapeData
+item = scrapeOp <|> scrapeClass <|> scrapeFunc <|> scrapeData
 
 getDef = text $ "a" @: [hasClass "def"]
 getDoc = text $ "div" @: [hasClass "doc"]
-
-
 getSource = attr "href" $ "a" @: [hasClass "link"]
 
 scrapeData :: Scraper String Item
@@ -34,6 +32,7 @@ scrapeInstances = undefined
 
 scrapeClass :: Scraper String Item
 scrapeClass = do
+    text $ "span" @: [hasClass "keyword"]
     name <- getDef
     doc <- getDoc
     instances <- return []
