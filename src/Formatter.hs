@@ -9,10 +9,10 @@ import Types
 name2doc :: [Item] -> String
 name2doc = concatMap step
   where step :: Item -> String
-        step (Data n d s)= "data" ++ n ++ "\t" ++ formatDoc d
-        step (Class n d m i s) = "class" ++ n ++ "\t" ++ formatDoc d
-        step (Op n sig d f s) = n ++ sig ++ "\t" ++ formatDoc d ++ " " ++ f
-        step (Func n sig d s) = n ++ sig ++ "\t" ++ formatDoc d
+        step (Data n d s)= "data " ++ n ++ "\t" ++ formatDoc d ++ "\n"
+        step (Class n d m i s) = "class " ++ n ++ "\t" ++ formatDoc d ++ "\n"
+        step (Op n sig d f s) = sig ++ "\t" ++ formatDoc d ++ " " ++ f ++ "\n"
+        step (Func n sig d s) = sig ++ "\t" ++ formatDoc d ++ "\n"
 
 formatDoc :: Doc -> Doc
 formatDoc = replaceNewLine . strip
