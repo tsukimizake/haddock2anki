@@ -13,20 +13,7 @@ item :: Scraper String Item
 item = scrapeOp <|> scrapeFunc <|> scrapeClass <|> scrapeData
 
 getDef = text $ "a" @: [hasClass "def"]
-getDoc = liftA strip $ text $ "div" @: [hasClass "doc"]
-  where
-    strip :: String -> String
-    strip = lstrip . rstrip
-    wschars :: String
-    wschars = " \t\r\n"
-    lstrip :: String -> String
-    lstrip s = case s of
-        [] -> []
-        (x:xs) -> if elem x wschars
-                      then lstrip xs
-                      else s
-    rstrip :: String -> String
-    rstrip = reverse . lstrip . reverse
+getDoc = text $ "div" @: [hasClass "doc"]
 
 
 getSource = attr "href" $ "a" @: [hasClass "link"]
