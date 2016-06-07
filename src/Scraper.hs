@@ -24,10 +24,10 @@ scrapeData = do
     return $ Data name doc source
 
 
-scrapeSubMethods :: Scraper String [Item]
-scrapeSubMethods = undefined
+scrapeSubMethods :: Scraper String [String]
+scrapeSubMethods = texts $ "div" @: [hasClass "subs", hasClass "methods"]
 
-scrapeInstances :: Scraper String [Item]
+scrapeInstances :: Scraper String [String]
 scrapeInstances = undefined
 
 scrapeClass :: Scraper String Item
@@ -35,6 +35,7 @@ scrapeClass = do
     text $ "span" @: [hasClass "keyword"]
     name <- getDef
     doc <- getDoc
+    methods <- scrapeSubMethods
     instances <- return []
     methods <- return []
     source <- getSource
