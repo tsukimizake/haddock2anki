@@ -52,11 +52,13 @@ scrapeOp = do
 
 scrapeFunc :: Scraper String Item
 scrapeFunc = do
-    name <- getDef
+    name <- text $ "a" @: [hasClass "def", match beginsWithV]
     sig <- text $ "p" @: [hasClass "src"]
     doc <- getDoc
     source <- getSource
     return $ Func name sig doc source
-
+  where
+    beginsWithV :: String -> String -> Bool
+    beginsWithV attr val = (attr == "name") && (take 2 val == "v:")
 allItems :: String -> IO (Maybe [Item])
 allItems url = scrapeURL url items
