@@ -30,6 +30,7 @@ executable haddock2anki-exe
   build-depends:       base
                      , haddock2anki
                      , hspec >= 2.2.3
+                     , scalpel >= 0.3
   default-language:    Haskell2010
 
 test-suite haddock2anki-test
