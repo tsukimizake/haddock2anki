@@ -12,13 +12,18 @@ items = chroots ("div" @: [hasClass "top"]) item
 item :: Scraper String Item
 item = scrapeOp <|> scrapeClass <|> scrapeFunc <|> scrapeData
 
-getDef = text $ "a" @: [hasClass "def"]
+getDef :: [AttributePredicate] -> Scraper String String
+getDef xs = text $ "a" @: (hasClass "def":xs)
+
+getDoc :: Scraper String String
 getDoc = text $ "div" @: [hasClass "doc"]
+
+getSource :: Scraper String String
 getSource = attr "href" $ "a" @: [hasClass "link"]
 
 scrapeData :: Scraper String Item
 scrapeData = do
-    name <- getDef
+    name <- getDef []
     doc <- getDoc
     source <- getSource
     return $ Data name doc source
@@ -33,7 +38,7 @@ scrapeInstances = undefined
 scrapeClass :: Scraper String Item
 scrapeClass = do
     text $ "span" @: [hasClass "keyword"]
-    name <- getDef
+    name <- getDef []
     doc <- getDoc
     methods <- scrapeSubMethods
     instances <- return []
@@ -43,7 +48,7 @@ scrapeClass = do
 
 scrapeOp :: Scraper String Item
 scrapeOp = do
-    name <- getDef
+    name <- getDef []
     sig <- text $ "p" @: [hasClass "src"]
     doc <- getDoc
     fixity <- text $ "span" @: [hasClass "fixity"]
@@ -52,7 +57,7 @@ scrapeOp = do
 
 scrapeFunc :: Scraper String Item
 scrapeFunc = do
-    name <- text $ "a" @: [hasClass "def", match beginsWithV]
+    name <- getDef [match beginsWithV]
     sig <- text $ "p" @: [hasClass "src"]
     doc <- getDoc
     source <- getSource
@@ -60,5 +65,6 @@ scrapeFunc = do
   where
     beginsWithV :: String -> String -> Bool
     beginsWithV attr val = (attr == "name") && (take 2 val == "v:")
+
 allItems :: String -> IO (Maybe [Item])
 allItems url = scrapeURL url items
