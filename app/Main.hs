@@ -16,9 +16,22 @@ run outputpath uri = do
     res <- return . name2doc $ items
     writeFile outputpath res
 
+helpMsg :: String
+helpMsg = "NAME\n     haddock2anki -- haddock scraper to generate anki flashcards\n\nSYNOPSIS\n     haddock2anki [-ho] URL\n\nDESCRIPTION\n     Names and natures do often agree. It will do what you may want.\n\nOPTIONS\n     -h show this help.\n\n     -o specify output filename. Default is \"./out.txt\".\n"
+
+getOutFile :: [String] -> Maybe String
+getOutFile args = let idx = findIndex (== "-o") args
+                  in maybe Nothing (return . (args !!) . (+1)) idx
+
+
 main :: IO()
 main = do
      args <- getArgs
+     when (elem "-h" args)
+         (putStrLn helpMsg)
+
+     let outfile = fromMaybe "./out.txt" $ getOutFile args
+
      if length args == 0
          then assert
-         else run "./out.txt" (head args)
+         else run outfile (last args)
