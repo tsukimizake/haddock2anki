@@ -31,6 +31,7 @@ executable haddock2anki-exe
                      , haddock2anki
                      , hspec >= 2.2.3
                      , scalpel >= 0.3
+                     , parseargs >= 0.2
   default-language:    Haskell2010
 
 test-suite haddock2anki-test
